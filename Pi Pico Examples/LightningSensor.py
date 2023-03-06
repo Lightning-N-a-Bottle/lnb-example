@@ -95,13 +95,13 @@ else:
 # The Noise floor setting from 1-7, one being the lowest.
 # The default setting is two.
 # If you need to change the setting, uncomment the line below
-# lightning.noise_level = 2
+lightning.noise_level = 5
 print("Noise level is set at: " + str(lightning.noise_level))
 
 # Watchdog threshold setting can be from 1-10, one being the lowest.
 # The default setting is two.
 # If you need to change the setting, uncomment the line below
-# lightning.watchdog_threshold = 3
+lightning.watchdog_threshold = 2
 print("Watchdog Threshold is set to: " + str(lightning.watchdog_threshold))
 
 # Spike Rejection setting from 1-11, one being the lowest.
@@ -133,13 +133,13 @@ print(
 # oscillators.
 # Uncomment the statements below to test power down and wake up functions
 
-# lightning.power_down()
-# print('AS3935 powered down.')
-# calibrated = lightning.wake_up()
+#lightning.power_down()
+#print('AS3935 powered down.')
+#calibrated = lightning.wake_up()
 #
-# if calibrated:
+#if calibrated:
 #    print('Successfully woken up!')
-# else:
+#else:
 #    print('Error recalibrating internal osciallator on wake up.')
 
 
@@ -154,15 +154,20 @@ try:
 
             if interrupt_value == lightning.NOISE:
                 print("Noise.")
+                lightning.clear_statistics()
             elif interrupt_value == lightning.DISTURBER:
                 print("Disturber.")
+                lightning.clear_statistics()
             elif interrupt_value == lightning.LIGHTNING:
                 print("Lightning strike detected!")
                 # Distance estimation takes into account previous events.
                 print("Approximately: " + str(lightning.distance_to_storm) + "km away!")
                 # Energy is a pure number with no physical meaning.
                 print("Energy: " + str(lightning.lightning_energy))
-        sleep(1)
+                lightning.clear_statistics()
+
+        sleep(.5)
+
 
 except KeyboardInterrupt:
     pass

@@ -67,7 +67,7 @@ else:
 
 # The lightning detector defaults to an indoor setting (less gain/sensitivity),
 # if you plan on using this outdoors uncomment the following line:
-#lightning.indoor_outdoor = lightning.OUTDOOR
+lightning.indoor_outdoor = lightning.OUTDOOR
 
 # Read the Lightning Detector Analog Front End (AFE) mode and print it out.
 afe_mode = lightning.indoor_outdoor
@@ -95,7 +95,7 @@ else:
 # The Noise floor setting from 1-7, one being the lowest.
 # The default setting is two.
 # If you need to change the setting, uncomment the line below
-lightning.noise_level = 4
+lightning.noise_level = 5
 print("Noise level is set at: " + str(lightning.noise_level))
 
 # Watchdog threshold setting can be from 1-10, one being the lowest.
@@ -154,8 +154,10 @@ try:
 
             if interrupt_value == lightning.NOISE:
                 print("Noise.")
+                lightning.clear_statistics()
             elif interrupt_value == lightning.DISTURBER:
                 print("Disturber.")
+                lightning.clear_statistics()
             elif interrupt_value == lightning.LIGHTNING:
                 print("Lightning strike detected!")
                 # Distance estimation takes into account previous events.
@@ -163,7 +165,9 @@ try:
                 # Energy is a pure number with no physical meaning.
                 print("Energy: " + str(lightning.lightning_energy))
                 lightning.clear_statistics()
-        sleep(2)
+
+        sleep(.5)
+
 
 except KeyboardInterrupt:
     pass
